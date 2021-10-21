@@ -1,12 +1,8 @@
 package com.nttdata.bootcamp.repository;
 
 public class Usuario {
+	
 	private String nombre;
-
-	public Usuario(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
 
 	public String getNombre() {
 		return nombre;
