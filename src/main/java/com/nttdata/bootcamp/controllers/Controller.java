@@ -25,7 +25,7 @@ public class Controller {
 		this.counterAdd = Counter.builder("usuarios.add").description("Invocaciones nuevo usuarios").register(registry);
 	}
 	
-	@GetMapping("/clientes")
+	@GetMapping("/usuarios")
 	public List<Usuario> verClientes() {
 		counterConsulta.increment();
 		return usuarios;
