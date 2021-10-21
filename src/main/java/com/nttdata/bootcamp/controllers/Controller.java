@@ -18,15 +18,16 @@ public class Controller {
 	private Counter counterConsulta;
 	private Counter counterAdd;
 	private Counter counterDel;
-	private List<Usuario> usuarios = new ArrayList<>();
+	private List<String> usuarios = new ArrayList<>();
 	
 	public Controller(MeterRegistry registry) {
 		this.counterConsulta = Counter.builder("usuarios.ver").description("Invocaciones ver usuarios").register(registry);
-		this.counterAdd = Counter.builder("usuarios.add").description("Invocaciones nuevo usuarios").register(registry);
+		this.counterAdd = Counter.builder("usuarios.add").description("Invocaciones nuevo usuario").register(registry);
+		this.counterDel = Counter.builder("usuarios.del").description("Invocaciones borrar usuario").register(registry);
 	}
 	
 	@GetMapping("/usuarios")
-	public List<Usuario> verClientes() {
+	public List<String> verClientes() {
 		counterConsulta.increment();
 		return usuarios;
 	}
@@ -34,8 +35,12 @@ public class Controller {
 	@GetMapping("/usuarios/nuevo/{nombre}")
 	public String nuevoCliente(@PathVariable(value="nombre") String nombre) {
 		counterAdd.increment();
-		usuarios.add(new Usuario(nombre));
-		return "Añadido " + nombre;
+		if (usuarios.indexOf(nombre) != -1) {
+			return "Ya existe un usuario con ese nombre";
+		} else {
+			usuarios.add(nombre);
+			return "Añadido " + nombre;		
+		}
 	}
 	
 	@GetMapping("/usuarios/borrar/{nombre}")
